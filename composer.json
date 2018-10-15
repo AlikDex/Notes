@@ -1,0 +1,21 @@
+{
+    "name": "alikdex/notes",
+    "description": "Notes module. Yii2",
+    "type": "yii2-extension",
+    "keywords": ["yii2","notes"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AlikDex",
+            "email": "alikdex@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+    },
+    "autoload": {
+        "psr-4": {
+            "Adx\\Note\\": "./src"
+        }
+    }
+}
