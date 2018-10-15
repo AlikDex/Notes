@@ -17,13 +17,5 @@
         "psr-4": {
             "Adx\\Module\\NoteModule\\": "./src"
         }
-    },
-    "scripts": {
-        "post-update-cmd": [
-            "php yii migrate --migrationPath=@vendor/alikdex/notes/src/Migration"
-        ],
-        "post-install-cmd": [
-            "php yii migrate --migrationPath=@vendor/alikdex/notes/src/Migration"
-        ]
     }
 }
