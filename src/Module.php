@@ -1,5 +1,5 @@
 <?php
-namespace Adx\Note;
+namespace Adx\Module\NoteModule;
 
 use Yii;
 use yii\base\Module as BaseModule;
@@ -15,7 +15,7 @@ class Module extends BaseModule
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'Adx\Note';
+    public $controllerNamespace = 'Adx\Module\NoteModule';
     /**
      * @inheritdoc
      */
@@ -41,7 +41,7 @@ class Module extends BaseModule
 
         // контреллеры для консольных команд
         if (Yii::$app instanceof ConsoleApplication) {
-            $this->controllerNamespace = 'Adx\Note\Command';
+            $this->controllerNamespace = 'Adx\Module\NoteModule\Command';
         }
 
         // перевод

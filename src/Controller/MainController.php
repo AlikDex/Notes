@@ -1,5 +1,5 @@
 <?php
-namespace Adx\Note\Controller;
+namespace Adx\Module\NoteModule\Controller;
 
 use Yii;
 use yii\web\Controller;
