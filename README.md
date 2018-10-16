@@ -11,7 +11,7 @@ Yii2 notes module
 ],
 ```
 
-## Db
+## Migrations
 ```
 'controllerMap' => [
     'migrate' => [
@@ -25,10 +25,12 @@ Yii2 notes module
 ```
 or in composer
 ```
-"post-update-cmd": [
-    "php yii migrate --migrationPath=@vendor/alikdex/notes/src/Migration"
-],
-"post-install-cmd": [
-    "php yii migrate --migrationPath=@vendor/alikdex/notes/src/Migration"
-]
+"scripts": {
+    "post-update-cmd": [
+        "yes | php yii migrate --migrationPath=@vendor/alikdex/notes/src/Migration"
+    ],
+    "post-install-cmd": [
+        "yes | php yii migrate --migrationPath=@vendor/alikdex/notes/src/Migration"
+    ]
+}
 ```

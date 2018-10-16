@@ -15,7 +15,7 @@ class Module extends BaseModule
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'Adx\Module\NoteModule';
+    public $controllerNamespace = 'Adx\Module\NoteModule\Controller';
     /**
      * @inheritdoc
      */
