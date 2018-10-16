@@ -2,7 +2,6 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 
 $this->title = Yii::t('note', 'notes');
 $this->params['subtitle'] = Yii::t('note', 'new');
@@ -29,18 +28,11 @@ $this->params['breadcrumbs'][] = Yii::t('note', 'new');
 
             <div class="box-body pad">
 
-                <?php $activeForm = ActiveForm::begin([
-                    'id' => 'note-form',
-                    'method' => 'post',
-                    'action' => ['create'],
-                ]) ?>
-
-                    <?php echo $this->render('_form_fields', [
-                        'form' => $form,
-                        'activeForm' => $activeForm,
-                    ]) ?>
-
-                <?php ActiveForm::end() ?>
+	        <div class="box-body pad">
+				<?= $this->render('_form_fields', [
+					'form' => $form,
+				]) ?>
+			</div>
 
             </div>
 

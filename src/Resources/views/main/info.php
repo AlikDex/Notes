@@ -9,7 +9,7 @@ $this->title = Yii::t('note', 'notes');
 $this->params['subtitle'] = Yii::t('note', 'info');
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('note', 'notes'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = Yii::t('project', 'info');
+$this->params['breadcrumbs'][] = Yii::t('note', 'info');
 
 ?>
 
