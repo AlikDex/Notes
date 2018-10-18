@@ -27,16 +27,14 @@ $this->params['breadcrumbs'][] = Yii::t('note', 'new');
             </div>
 
             <div class="box-body pad">
-
-	        <div class="box-body pad">
-				<?= $this->render('_form_fields', [
-					'form' => $form,
-				]) ?>
-			</div>
-
+				<div id="note-text" class="note-text">
+					<?= $this->render('_form_fields', [
+						'form' => $form,
+					]) ?>
+				</div>
             </div>
 
-            <div class="box-footer clearfix">
+            <div id="view-box-footer" class="box-footer clearfix">
 			    <div class="form-group">
 					<?= Html::submitButton('<i class="fa fa-fw fa-plus text-green"></i>' . Yii::t('note', 'create'), ['class' => 'btn btn-default', 'form' => 'note-form']) ?>
 				</div>

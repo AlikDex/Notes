@@ -24,7 +24,7 @@ use Adx\Module\NoteModule\Widget\NoteList;
             [
                 'id' => 'save-order',
                 'class' => 'btn btn-default',
-                'data-url' => Url::toRoute(['main/save-order'])
+                'data-url' => Url::toRoute(['ajax/save-order'])
             ]
         ) ?>
     </div>
@@ -89,6 +89,62 @@ $script = <<< 'JAVASCRIPT'
             toastr.error(error.message);
         });
     });
+
+    let noteListRows = noteList.querySelectorAll('.note-list__row');
+
+    noteListRows.forEach(function (noteListRow) {
+        let nodeListRowLink = noteListRow.querySelector('.note-row__link[data-action="note-view"]');
+
+        nodeListRowLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            let noteDataUrl = this.getAttribute('href');
+
+            fetch(noteDataUrl, {
+                method: 'GET',
+                credentials: 'same-origin'
+            }).then((response) => {
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+
+                return response;
+            })
+            .then(response => response.json())
+            .then((data) => {
+                if (data.error !== undefined) {
+                    throw new Error(data.error.message);
+                }
+
+                // Вывод загруженных данных в контейнеры
+                let boxTitle = document.querySelector('#box-title');
+                let noteText = document.querySelector('#note-text');
+                let boxFooter = document.querySelector('#view-box-footer');
+
+                if (null !== boxFooter) {
+                    boxFooter.remove();
+                }
+
+                // Установим местку "активный"
+                let parentLi = this.closest('.note-row');
+                if (null !== parentLi) {
+                    noteListRows.forEach(function (element) {
+                        element.classList.remove('active');
+                    });
+
+                    parentLi.classList.add('active');
+                }
+
+                boxTitle.innerHTML = 'Просмотр: ' + data.note.title;
+                noteText.classList.add('ql-editor');
+                noteText.innerHTML = data.note.note;
+            }).catch(function(error) {
+                toastr.error(error.message);
+            });
+        });
+    });
+
 JAVASCRIPT;
 
 $this->registerJS($script);

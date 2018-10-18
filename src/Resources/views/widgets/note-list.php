@@ -15,7 +15,12 @@ if (!isset($active_id)) {
     <ul id="note-list" class="note-list">
         <?php foreach ($notes as $note): ?>
             <li class="note-list__row  note-row <?= ($note->getId() === $active_id)? 'active' : ''?>" data-key="<?= $note->getId() ?>">
-                <div class="note-row__title"><?= Html::a($note->title, ['main/view', 'id' => $note->getId()]) ?></div>
+                <div class="note-row__title">
+                    <?= Html::a($note->title, ['ajax/view', 'id' => $note->getId()], [
+                        'class' => 'note-row__link',
+                        'data-action' => 'note-view',
+                    ]) ?>
+                </div>
 
                 <div class="table-actions">
                     <div class="table-actions__button">
@@ -73,12 +78,16 @@ $css = <<< 'Css'
     .note-list__placeholder {
         display: flex;
         width: 100%;
-        padding: 8px 10px;
+        padding: 8px 10px 8px 7px;
         border-bottom: 1px solid #ececec;
     }
     .note-row__title {
         line-height: 2rem;
         flex-grow: 1;
+    }
+    .note-row.active {
+        padding: 8px 10px 8px 7px;
+        border-left: 3px solid #b616ea;
     }
 
     .table-actions {

@@ -28,16 +28,6 @@ $this->params['breadcrumbs'][] = Yii::t('note', 'info');
 				<div class="box-tools pull-right">
 					<div class="btn-group">
 						<?= Html::a('<i class="fa fa-fw fa-plus text-green"></i>' . Yii::t('note', 'add'), ['create'], ['class' => 'btn btn-default btn-sm', 'title' => 'new']) ?>
-						<?= Html::a('<i class="fa fa-fw fa-edit text-blue"></i>' . Yii::t('note', 'edit'), ['update', 'id' => $note->getId()], ['class' => 'btn btn-default btn-sm', 'title' => 'edit']) ?>
-                        <?= Html::a('<i class="fa fa-fw fa-eye text-blue"></i>' . Yii::t('note', 'view'), ['view', 'id' => $note->getId()], ['class' => 'btn btn-default btn-sm', 'title' => 'Просмотр']) ?>
-                        <?= Html::a('<i class="fa fa-fw fa-trash-o text-red"></i>' . Yii::t('note', 'delete'), ['delete', 'id' => $note->getId()], [
-				            'class' => 'btn btn-default btn-sm',
-				            'title' => Yii::t('note', 'Delete note'),
-				            'data' => [
-				                'confirm' => Yii::t('note', 'Are you sure?'),
-				                'method' => 'post',
-				            ],
-				        ]) ?>
 					</div>
 				</div>
             </div>
