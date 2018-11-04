@@ -36,6 +36,7 @@ class AjaxController extends Controller
                     'view' => ['get'],
                     'delete' => ['post'],
                     'save-order' => ['post'],
+                    'save' => ['post'],
                 ],
             ],
         ];
@@ -157,6 +158,58 @@ class AjaxController extends Controller
             'note' => $note,
             'form' => $form,
         ]);
+    }
+
+    /**
+     * Updates an existing Note model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     *
+     * @return mixed
+     */
+    public function actionSave()
+    {
+        $id = (int) Yii::$app->request->post('id', 0);
+
+        if (0 === $id) {
+            $maxOrder = (int) Note::find()->max('{{order}}');
+            $note = new Note([
+                'user_id' => Yii::$app->user->getId(),
+                'order' => $maxOrder + 1,
+            ]);
+        } else {
+            $note = $this->findById($id);
+        }
+
+        $form = new NoteForm;
+        $form->setAttributes($note->getAttributes());
+
+        if ($form->load(Yii::$app->request->post()) && $form->isValid()) {
+            $note->setAttributes($form->getAttributes());
+            $note->updated_at = gmdate('Y-m-d H:i:s');
+
+            if ($note->save()) {
+                return $this->asJson([
+                    'message' => Yii::t('note', 'Note "<b>{title}</b>" saved', ['title' => $note->title]),
+                    'note' => $note,
+                ]);
+            } else {
+                return $this->asJson([
+                    'error' => [
+                        'code' => 422,
+                        'message' => Yii::t('note', 'Validation fail'),
+                    ]
+                ]);
+            }
+        }
+
+        if ($form->hasErrors()) {
+            return $this->asJson([
+                'error' => [
+                    'code' => 422,
+                    'message' => implode('<br>', $form->getErrorSummary(true)),
+                ]
+            ]);
+        }
     }
 
     /**

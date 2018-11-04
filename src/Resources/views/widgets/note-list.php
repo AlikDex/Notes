@@ -23,19 +23,9 @@ if (!isset($active_id)) {
                 </div>
 
                 <div class="table-actions">
-                    <div class="table-actions__button">
+                     <div class="table-actions__button">
                         <?= Html::a(
-                            '<span class="fa fa-edit text-blue"></span>',
-                            ['update', 'id' => $note->getId()],
-                            [
-                                'title' => 'Редактирование',
-                                'class' => 'table-actions__link',
-                            ]
-                        ) ?>
-                    </div>
-                    <div class="table-actions__button">
-                        <?= Html::a(
-                            '<span class="fa fa-trash text-red"></span>',
+                            '<i class="material-icons md-20 text-red">delete</i>',
                             ['delete', 'id' => $note->getId()],
                             [
                                 'title' => 'Удалить',
@@ -61,8 +51,6 @@ $css = <<< 'Css'
         display: block;
         list-style: none;
         padding: 0;
-        margin-left: -10px;
-        margin-right: -10px;
     }
     .note-list__row:hover {
         background: #efefef;
@@ -103,8 +91,8 @@ $css = <<< 'Css'
         opacity: 1;
     }
     .table-actions__link {
+        display: block;
         line-height: 1;
-        font-size: 1.8rem;
     }
 Css;
 

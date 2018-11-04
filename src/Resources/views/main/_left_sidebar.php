@@ -1,32 +1,33 @@
 <?php
 
+use yii\web\View;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use Adx\Module\NoteModule\Widget\NoteList;
 
+$this->registerCssFile('//cdn.quilljs.com/1.3.6/quill.snow.css');
+$this->registerJsFile('//cdn.quilljs.com/1.3.6/quill.min.js', ['position' => View::POS_END]);
+
 ?>
 
-<div class="box box-default">
-    <div class="box-header with-border">
-        <i class="fa fa-list"></i><h3 class="box-title"><?= Yii::t('note', 'overview') ?></h3>
-        <div class="box-tools pull-right">
-            <div class="btn-group">
-            </div>
-        </div>
-    </div>
-
-    <div class="box-body pad">
+<div class="note-list-container mdl-shadow--2dp">
+    <div>
         <?= NoteList::widget() ?>
     </div>
 
-    <div class="box-footer clearfix">
-        <?= Html::submitButton('<span class="fa fa-fw fa-sort-amount-asc"></span> Сохранить порядок сортировки',
-            [
-                'id' => 'save-order',
-                'class' => 'btn btn-default',
-                'data-url' => Url::toRoute(['ajax/save-order'])
-            ]
-        ) ?>
+    <div class="menu-bar">
+        <div class="menu-bar__wrapper">
+            <button id="note-list-menu" class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">more_vert</i></button>
+
+            <ul id="note-list-actions" class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect"
+                data-mdl-for="note-list-menu">
+                <li class="mdl-menu__item"
+                    data-action="save-order"
+                    data-action-url="<?= Url::toRoute(['ajax/save-order']) ?>">
+                        <i class="material-icons">sort</i> Сохранить сортировку
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -42,13 +43,13 @@ $script = <<< 'JAVASCRIPT'
         },
     });
 
-    var saveOrderButton = document.querySelector('#save-order');
+    var saveOrderButton = document.querySelector('#note-list-actions [data-action="save-order"]');
     var noteList = document.querySelector('#note-list');
 
     saveOrderButton.addEventListener('click', function (event) {
         event.preventDefault();
 
-        let sendUrl = saveOrderButton.getAttribute('data-url');
+        let sendUrl = saveOrderButton.getAttribute('data-action-url');
         let noteItems = noteList.querySelectorAll('[data-key]');
         let formData = new FormData();
 
@@ -117,15 +118,6 @@ $script = <<< 'JAVASCRIPT'
                     throw new Error(data.error.message);
                 }
 
-                // Вывод загруженных данных в контейнеры
-                let boxTitle = document.querySelector('#box-title');
-                let noteText = document.querySelector('#note-text');
-                let boxFooter = document.querySelector('#view-box-footer');
-
-                if (null !== boxFooter) {
-                    boxFooter.remove();
-                }
-
                 // Установим местку "активный"
                 let parentLi = this.closest('.note-row');
                 if (null !== parentLi) {
@@ -136,9 +128,12 @@ $script = <<< 'JAVASCRIPT'
                     parentLi.classList.add('active');
                 }
 
-                boxTitle.innerHTML = 'Просмотр: ' + data.note.title;
-                noteText.classList.add('ql-editor');
-                noteText.innerHTML = data.note.note;
+                noteForm.title.value = data.note.title;
+                noteForm.title.disabled = true;
+                noteForm.id.value = data.note.note_id;
+                quill.setContents(JSON.parse(data.note.note));
+                quill.disable();
+                noteContainer.classList.add('inactive');
             }).catch(function(error) {
                 toastr.error(error.message);
             });
